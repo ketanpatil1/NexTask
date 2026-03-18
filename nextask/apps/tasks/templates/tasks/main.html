@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<main>
+    <div class="sections-header">
+        Sections
+        <button class="add-section-btn"><img src="{% static 'icons/plus.svg' %}" alt=""></button>
+    </div>
+    {% if sections %}
+    <div class="sections-container">
+        {% for section in sections %}
+        <div class="section" section-id="{{section.id}}">
+            <header section_id="{{section.id}}">
+                <p class="section-title">{{ section }}</p>
+                <button class="add-task-btn"><img src="{% static 'icons/plus.svg' %}" alt=""></button>
+                <button type='submit' class="delete-section-btn"><img src="{% static 'icons/trash.svg' %}" alt=""></button>
+            </header>
+            <hr>
+            <ul>
+                {% for task in tasks %}
+                {% if task.section.id == section.id %}
+                <li class="priority-{{ task.priority }} {%if task.completed%}completed{%endif%}">
+                    <input class="complete-btn" type="submit" value="">
+                    <div class="task">
+                        <p class="task-title">{{ task }}</p>
+                        <div class="task-desc">{{ task.description|linebreaks }}</div>
+                        <div class="task-goal-details">
+                            {% if task.goal_date %}
+                            <p class="task-goal-date">
+                                {{ task.goal_date|date:"M d Y" }}
+                            </p>
+                            {% endif %}
+                            {% if task.goal_time %}
+                            <p class="task-goal-time">
+                                {{ task.goal_time|date:"f A" }}
+                            </p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="task-actions" id="{{ task.id }}">
+                        <!-- <i class="uil uil-calendar-alt">{{ task.goal_date }} {{ task.goal_time }}</i> -->
+                        <button class="update-task-btn"><i class="uil uil-pen"><img src="{% static 'icons/pencil-square.svg' %}" alt=""></i></button>
+                        <!-- <form method="POST" style="display:inline-block"> -->
+                        <!--     {% csrf_token %} -->
+                            <!-- <input id="{{ delete_task_form.id }}" type="hidden" name="task_id" value={{ task.id }} /> -->
+                                <!-- {{ delete_task_form.as_p }} -->
+                            <button class="delete-task-btn" type="submit"><img src="{% static 'icons/trash.svg' %}" alt=""></button>
+                        <!-- </form> -->
+                    </div>
+                </li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </div> 
+        {% endfor %}
+    </div>
+    {% else %}
+        <div class="empty">
+            <p>Nothing to see here.</p>
+        </div>
+    {% endif %}
+</main>
+
+<dialog class="add-section-dialog">
+    <form method="POST">
+        <h2>Add Section</h2>
+        {% for field in add_section_form %}
+        {{ field }}
+        {% endfor %}
+        {% csrf_token %}
+        <div class="dialog-action-buttons">
+            <button type="reset" class="close-section">Cancel</button>
+            <button class="primary add" type="submit">Add</button>
+        </div>
+    </form>
+</dialog>
+
+<dialog class="delete-section-dialog">
+    <form method="POST">
+        <h3>Delete Section</h3>
+        {% csrf_token %}
+        <p>Are you sure you want to delete the section "section_name"?</p>
+        {{ delete_section_form.as_p }}
+        <div class="dialog-action-buttons">
+            <button type="submit" class="primary delete-btn">Delete</button>
+            <button type="reset" class="close-section">Cancel</button>
+        </div>
+    </form>
+</dialog>
+
+
+<dialog class="delete-task-dialog">
+    <form method="POST">
+        <h3>Delete Task</h3>
+        {% csrf_token %}
+        <p>Are you sure you wnat to delete the task "task_name" ?</p>
+        {{ delete_task_form.as_p }}
+        <div class="dialog-action-buttons">
+            <button type="submit" class="primary delete-btn">Delete</button>
+            <button type="reset" class="close-section">Cancel</button>
+        </div>
+    </form>
+</dialog>
+
+<dialog class="add-task-dialog">
+    <form method="POST">
+        <h2>Add Task</h2>
+        {% csrf_token %}
+        {{ add_task_form }}
+        <div class="dialog-action-buttons">
+            <button type="reset" class="close-section">Cancel</button>
+            <button type="submit" class="primary">Add</button>
+        </div>
+    </form>
+</dialog>
+
+<dialog class="update-task-dialog">
+    <form method="POST">
+        <h2>Update Task</h2>
+        {% csrf_token %}
+        {{ update_task_form }}
+        <div class="dialog-action-buttons">
+            <button type="reset" class="close-section">Cancel</button>
+            <button type="submit" class="primary">Update</button>
+        </div>
+    </form>
+</dialog>
+
+<script src="{% static "js/notification.js" %}"></script>
+<script defer>
+{% for task in tasks %}
+        {% if task.goal_date and task.goal_time %}
+scheduleReminder("{{ task.title }}", `{{ task.description }}`, "{{ task.goal_date|date:'Y-m-d' }}", "{{ task.goal_time|time:'H:i' }}");
+        {% endif %}
+    {% endfor %}
+</script>
+{% endblock content %}

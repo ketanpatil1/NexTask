@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-16">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Tasks App</title>
+        <link href="{% static 'css/style.css' %}" rel="stylesheet">
+        <script src="{% static 'js/dropdown.js' %}" defer></script>
+        <script src="{% static 'js/script.js' %}" defer></script>
+        <!-- <script src="{% static 'js/delete_task.js' %}" defer></script> -->
+    </head>
+    <body>
+        <header>
+            <div class="header-info">
+                <!-- <button><i class="uil uil-align-justify"></i></button> -->
+                <!-- <a href="{% url 'home' %}" style="text-decoration:none"><div class="logo">TO-DO🐦</div></a> -->
+                <a href="{% url 'home' %}" style="text-decoration:none"><div class="logo">Ne<span class="blue">ꭗ</span>Task</div></a>
+                {% if user.is_authenticated %}
+                <!-- <h1>My Tasks</h1> -->
+                {% endif %}
+            </div>
+            <div class="header-user">
+                {% if user.is_authenticated %}
+                <div class="dropdown-btn">
+                    <img src="{{ user.profile.avatar.url }}" alt=""> 
+                    <p>{{ user }}</p>
+                    <div id="myDropdown" class="dropdown-content">
+                        <a href="{% url 'profile' %}"><button>Your Profile</button></a>
+                        <form method="POST" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button type="submit" value="Logout">Logout</button>
+                        </form>
+                    </div>
+                </div>
+                {% else %}
+                <a href="{% url 'login' %}"><button class='login'>Login</button></a>
+                <a href="{% url 'register' %}"><button class='register'>Register</button></a>
+                {% endif %}
+            </div>
+        </header>
+        {% block content %}
+        {% endblock content %}
+    </body>
+</html>

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <main class="home">
+        <div>
+            <p class="home-line">Take back control of your life.</p>
+            <p class="home-line">Organize your routine.</p>
+            <p class="home-line">Achieve your goals.</p>
+        </div>
+        <p class="home-line2">Take the first step towards a better life with NexTask</p>
+        <a href="{% url 'register' %}"><button class="primary">Start today</button></a>
+    </main>
+{% endblock content %}

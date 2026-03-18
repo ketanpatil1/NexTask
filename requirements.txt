@@ -1,0 +1,4 @@
+django==5.2.4
+django-extensions==4.1
+psycopg[binary,pool]==3.2.9
+pillow==11.3.0
