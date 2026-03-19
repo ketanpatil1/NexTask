@@ -7,7 +7,7 @@ from PIL import Image
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
-    avatar = models.ImageField(default="default.png", upload_to="profile_avatars")
+    avatar = models.ImageField(upload_to="profile_avatars", blank=True)
 
     def __str__(self):
         return f"{self.user.username} Profile"
@@ -16,25 +16,29 @@ class Profile(models.Model):
         # save the profile first
         super().save(*args, **kwargs)
 
-        # resize the image
-        img = Image.open(self.avatar.path)
+        if self.avatar:
+            try:
+                # resize the image
+                img = Image.open(self.avatar.path)
+            except:
+                return
 
-        width, height = img.size
+            width, height = img.size
 
-        if height > width:
-            left = 0
-            top = height / 2 - width / 2
-            right = width
-            bottom = height / 2 + width / 2
-            img = img.crop((left, top, right, bottom))
-        elif height < width:
-            left = width / 2 - height / 2
-            top = 0
-            right = width / 2 + height / 2
-            bottom = height
-            img = img.crop((left, top, right, bottom))
+            if height > width:
+                left = 0
+                top = height / 2 - width / 2
+                right = width
+                bottom = height / 2 + width / 2
+                img = img.crop((left, top, right, bottom))
+            elif height < width:
+                left = width / 2 - height / 2
+                top = 0
+                right = width / 2 + height / 2
+                bottom = height
+                img = img.crop((left, top, right, bottom))
 
-        if height > 300 or width > 300:
-            output_size = (300, 300)
-            img.thumbnail(output_size)
-        img.save(self.avatar.path)
+            if height > 300 or width > 300:
+                output_size = (300, 300)
+                img.thumbnail(output_size)
+            img.save(self.avatar.path)

@@ -23,7 +23,11 @@
             <div class="header-user">
                 {% if user.is_authenticated %}
                 <div class="dropdown-btn">
-                    <img src="{{ user.profile.avatar.url }}" alt=""> 
+                    {% if user.profile.avatar %}
+                    <img src="{{ user.profile.avatar.url }}" alt="avatar"> 
+                    {% else %}
+                    <img src="{% static "images/default-avatar.png" %}" alt="avatar">
+                    {% endif %}
                     <p>{{ user }}</p>
                     <div id="myDropdown" class="dropdown-content">
                         <a href="{% url 'profile' %}"><button>Your Profile</button></a>
