@@ -121,3 +121,8 @@ const userDropdownBtn = document.querySelector(".dropdown-btn");
 userDropdownBtn.addEventListener("click", () => {
     dropDown.classList.toggle("show");
 });
+document.addEventListener("click", (event) => {
+    if (!dropDown.contains(event.target)) {
+        dropDown.classList.remove("show");
+    }
+});
