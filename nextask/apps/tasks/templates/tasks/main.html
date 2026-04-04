@@ -38,14 +38,8 @@
                         </div>
                     </div>
                     <div class="task-actions" id="{{ task.id }}">
-                        <!-- <i class="uil uil-calendar-alt">{{ task.goal_date }} {{ task.goal_time }}</i> -->
                         <button class="update-task-btn"><i class="uil uil-pen"><img src="{% static 'icons/pencil-square.svg' %}" alt=""></i></button>
-                        <!-- <form method="POST" style="display:inline-block"> -->
-                        <!--     {% csrf_token %} -->
-                            <!-- <input id="{{ delete_task_form.id }}" type="hidden" name="task_id" value={{ task.id }} /> -->
-                                <!-- {{ delete_task_form.as_p }} -->
-                            <button class="delete-task-btn" type="submit"><img src="{% static 'icons/trash.svg' %}" alt=""></button>
-                        <!-- </form> -->
+                        <button class="delete-task-btn" type="submit"><img src="{% static 'icons/trash.svg' %}" alt=""></button>
                     </div>
                 </li>
                 {% endif %}

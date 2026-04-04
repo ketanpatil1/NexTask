@@ -101,3 +101,9 @@ closeModalBtn.forEach(element => {
         document.querySelector("dialog[open]").close()
     })
 })
+
+const dropDown = document.querySelector("#myDropdown");
+const userDropdownBtn = document.querySelector(".dropdown-btn");
+userDropdownBtn.addEventListener("click", () => {
+    dropDown.classList.toggle("show");
+});

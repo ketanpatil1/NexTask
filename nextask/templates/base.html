@@ -6,19 +6,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Tasks App</title>
         <link href="{% static 'css/style.css' %}" rel="stylesheet">
-        <script src="{% static 'js/dropdown.js' %}" defer></script>
         <script src="{% static 'js/script.js' %}" defer></script>
-        <!-- <script src="{% static 'js/delete_task.js' %}" defer></script> -->
     </head>
     <body>
         <header>
             <div class="header-info">
-                <!-- <button><i class="uil uil-align-justify"></i></button> -->
-                <!-- <a href="{% url 'home' %}" style="text-decoration:none"><div class="logo">TO-DO🐦</div></a> -->
                 <a href="{% url 'home' %}" style="text-decoration:none"><div class="logo">Ne<span class="blue">ꭗ</span>Task</div></a>
-                {% if user.is_authenticated %}
-                <!-- <h1>My Tasks</h1> -->
-                {% endif %}
             </div>
             <div class="header-user">
                 {% if user.is_authenticated %}
