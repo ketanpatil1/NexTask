@@ -53,11 +53,10 @@ const updateTaskDate = updateTaskModal.querySelector("#id_goal_date");
 const updateTaskTime = updateTaskModal.querySelector("#id_goal_time");
 
 function dateToString(dateObject) {
-    let day = dateObject.getDate();
-    let monthIndex = dateObject.getMonth();
-    let year = dateObject.getFullYear();
-    let month = monthIndex + 1;
-    return `${year}-${month.toString().padStart(2, 0)}-${day}`;
+    const day = dateObject.getDate().toString().padStart(2, 0);
+    const month = (dateObject.getMonth() + 1).toString().padStart(2, 0);
+    const year = dateObject.getFullYear();
+    return `${year}-${month}-${day}`;
 }
 
 function timeTo24Fmt(timeString) {
