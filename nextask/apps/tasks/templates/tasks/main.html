@@ -50,9 +50,9 @@
         {% endfor %}
     </div>
     {% else %}
-        <div class="empty">
-            <p>Nothing to see here.</p>
-        </div>
+    <div class="empty">
+        <p>Nothing to see here.</p>
+    </div>
     {% endif %}
 </main>
 
@@ -88,7 +88,7 @@
     <form method="POST">
         <h3>Delete Task</h3>
         {% csrf_token %}
-        <p>Are you sure you wnat to delete the task "task_name" ?</p>
+        <p>Are you sure you want to delete the task "task_name" ?</p>
         {{ delete_task_form.as_p }}
         <div class="dialog-action-buttons">
             <button type="submit" class="primary delete-btn">Delete</button>

@@ -1,10 +1,10 @@
-let timeoutIds = []
+let timeoutIds = [];
 
 // function scheduleReminder(title, description, date, time){
 let scheduleReminder = (title, description, date, time) => {
-    if("Notification" in window) {
-        Notification.requestPermission().then(function(permission){
-            if(Notification.permission !== "granted"){
+    if ("Notification" in window) {
+        Notification.requestPermission().then(function (permission) {
+            if (Notification.permission !== "granted") {
                 alert("Please allow the notification access!");
                 // location.reload()
             }
@@ -22,8 +22,8 @@ let scheduleReminder = (title, description, date, time) => {
         let currentTime = new Date();
         let timeDifference = scheduleTime - currentTime;
 
-        if(timeDifference > 0){
-            let timeoutId = setTimeout(function (){
+        if (timeDifference > 0) {
+            let timeoutId = setTimeout(function () {
                 let notification = new Notification(title, {
                     body: description,
                     requireInteraction: true,
@@ -31,12 +31,12 @@ let scheduleReminder = (title, description, date, time) => {
             }, timeDifference);
 
             timeoutIds.push(timeoutId);
-        } else{
+        } else {
             // alert("The scheduled time is in the past!");
         }
-        console.log(title, description, date, time)
+        console.log(title, description, date, time);
     }
-}
+};
 
 // let notifi = document.querySelector(".add-task-dialog .primary");
 //
