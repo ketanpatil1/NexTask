@@ -1,8 +1,6 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, redirect, render
 
-from .models import Section, Task
 from .forms import (
     CreateSectionForm,
     CreateTaskForm,
@@ -10,6 +8,7 @@ from .forms import (
     DeleteTaskForm,
     UpdateTaskForm,
 )
+from .models import Section, Task
 
 
 # Create your views here.

@@ -1,13 +1,13 @@
-from django.urls import path
-from .views import MyLoginView, RegisterView, MyProfile
-
 from django.contrib.auth.views import (
     LogoutView,
-    PasswordResetView,
-    PasswordResetDoneView,
-    PasswordResetConfirmView,
     PasswordResetCompleteView,
+    PasswordResetConfirmView,
+    PasswordResetDoneView,
+    PasswordResetView,
 )
+from django.urls import path
+
+from .views import MyLoginView, MyProfile, RegisterView
 
 urlpatterns = [
     path("login/", MyLoginView.as_view(), name="login"),
