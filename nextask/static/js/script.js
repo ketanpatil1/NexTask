@@ -12,8 +12,8 @@ const addTaskPriority = addTaskModal.querySelector("#id_priority");
 
 addTaskBtns.forEach((element) => {
     element.addEventListener("click", () => {
-        addTaskSection.value =
-            element.parentNode.attributes.getNamedItem("section_id").value;
+        section = element.closest(".section");
+        addTaskSection.value = section.dataset.id;
         addTaskPriority.querySelector("#id_priority_3").checked = true;
         addTaskModal.showModal();
     });
@@ -21,21 +21,26 @@ addTaskBtns.forEach((element) => {
 
 const deleteSectionBtns = document.querySelectorAll(".delete-section-btn");
 const deleteSectionModal = document.querySelector(".delete-section-dialog");
+const deleteSectionTitle = document.querySelector(".delete-section-title");
 const deleteSectionID = document.querySelector("#id_delete_section");
 deleteSectionBtns.forEach((element) => {
     element.addEventListener("click", () => {
-        deleteSectionID.value =
-            element.parentNode.attributes.getNamedItem("section_id").value;
+        section = element.closest(".section");
+        deleteSectionID.value = section.dataset.id;
+        deleteSectionTitle.textContent = section.dataset.title;
         deleteSectionModal.showModal();
     });
 });
 
 const deleteTaskBtns = document.querySelectorAll(".delete-task-btn");
 const deleteTaskModal = document.querySelector(".delete-task-dialog");
+const deleteTaskTitle = document.querySelector(".delete-task-title");
 const deleteTaskID = document.querySelector("#id_delete_task");
 deleteTaskBtns.forEach((element) => {
     element.addEventListener("click", () => {
-        deleteTaskID.value = element.parentNode.id;
+        task = element.closest("li");
+        deleteTaskID.value = task.dataset.id;
+        deleteTaskTitle.textContent = task.dataset.title;
         deleteTaskModal.showModal();
     });
 });
@@ -70,39 +75,20 @@ function timeTo24Fmt(timeString) {
 
 updateTaskBtns.forEach((element) => {
     element.addEventListener("click", () => {
-        updateTaskId.value = element.parentNode.id;
+        task = element.closest("li");
 
-        updateTaskTitle.value =
-            element.parentNode.parentNode.querySelector(".task-title")
-                .innerText;
-        updateTaskDescription.value =
-            element.parentNode.parentNode.querySelector(".task-desc").innerText;
+        updateTaskId.value = task.dataset.id;
+        updateTaskTitle.value = task.dataset.title;
+        updateTaskDescription.value = task.dataset.description;
         updateTaskPriority.querySelector(
-            `#update_task_priority_${
-                element.parentNode.parentNode.classList[0].slice(-1) - 1
-            }`,
+            `#update_task_priority_${task.dataset.priority - 1}`,
         ).checked = true;
 
-        goal_date_p = element.parentNode.parentNode.querySelector(
-            ".task-goal-date",
-        );
-        if (goal_date_p) {
-            goal_date = new Date(goal_date_p.innerText);
-            updateTaskDate.value = dateToString(goal_date);
-        } else {
-            updateTaskDate.value = null;
-        }
+        goalDate = new Date(task.dataset.goalDate);
+        updateTaskDate.value = goalDate ? dateToString(goalDate) : null;
 
-        goal_time_p = element.parentNode.parentNode.querySelector(
-            ".task-goal-time",
-        );
-        if (goal_time_p) {
-            goal_time = goal_time_p.innerText;
-            updateTaskTime.value = timeTo24Fmt(goal_time);
-            console.log(timeTo24Fmt(goal_time));
-        } else {
-            updateTaskTime.value = null;
-        }
+        goalTime = task.dataset.goalTime;
+        updateTaskTime.value = goalTime ? timeTo24Fmt(goalTime) : null;
 
         updateTaskModal.showModal();
     });

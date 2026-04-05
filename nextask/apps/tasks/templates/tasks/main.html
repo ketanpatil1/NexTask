@@ -10,8 +10,12 @@
     {% if sections %}
     <div class="sections-container">
         {% for section in sections %}
-        <div class="section" section-id="{{section.id}}">
-            <header section_id="{{section.id}}">
+        <div
+            class="section"
+            data-id="{{ section.id }}"
+            data-title="{{ section }}"
+        >
+            <header>
                 <p class="section-title">{{ section }}</p>
                 <button class="add-task-btn"><img src="{% static 'icons/plus.svg' %}" alt=""></button>
                 <button type='submit' class="delete-section-btn"><img src="{% static 'icons/trash.svg' %}" alt=""></button>
@@ -20,7 +24,15 @@
             <ul>
                 {% for task in tasks %}
                 {% if task.section.id == section.id %}
-                <li class="priority-{{ task.priority }} {%if task.completed%}completed{%endif%}">
+                <li
+                    class="priority-{{ task.priority }} {% if task.completed %}completed{% endif %}"
+                    data-id="{{ task.id }}"
+                    data-title="{{ task }}"
+                    data-description="{{ task.description }}"
+                    data-priority="{{ task.priority }}"
+                    data-goal-date="{{ task.goal_date|default_if_none:"" }}"
+                    data-goal-time="{{ task.goal_time|default_if_none:"" }}"
+                >
                     <input class="complete-btn" type="submit" value="">
                     <div class="task">
                         <p class="task-title">{{ task }}</p>
@@ -38,9 +50,13 @@
                             {% endif %}
                         </div>
                     </div>
-                    <div class="task-actions" id="{{ task.id }}">
-                        <button class="update-task-btn"><i class="uil uil-pen"><img src="{% static 'icons/pencil-square.svg' %}" alt=""></i></button>
-                        <button class="delete-task-btn" type="submit"><img src="{% static 'icons/trash.svg' %}" alt=""></button>
+                    <div class="task-actions">
+                        <button class="update-task-btn">
+                            <img src="{% static 'icons/pencil-square.svg' %}" alt="">
+                        </button>
+                        <button class="delete-task-btn" type="submit">
+                            <img src="{% static 'icons/trash.svg' %}" alt="">
+                        </button>
                     </div>
                 </li>
                 {% endif %}
@@ -74,7 +90,7 @@
     <form method="POST">
         <h3>Delete Section</h3>
         {% csrf_token %}
-        <p>Are you sure you want to delete the section "section_name"?</p>
+        <p>Are you sure you want to delete the section "<span class="delete-section-title"></span>"?</p>
         {{ delete_section_form.as_p }}
         <div class="dialog-action-buttons">
             <button type="submit" class="primary delete-btn">Delete</button>
@@ -88,7 +104,7 @@
     <form method="POST">
         <h3>Delete Task</h3>
         {% csrf_token %}
-        <p>Are you sure you want to delete the task "task_name" ?</p>
+        <p>Are you sure you want to delete the task "<span class="delete-task-title"></span>" ?</p>
         {{ delete_task_form.as_p }}
         <div class="dialog-action-buttons">
             <button type="submit" class="primary delete-btn">Delete</button>
